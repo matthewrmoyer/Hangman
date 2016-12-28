@@ -7,6 +7,7 @@ var targetWordInput = document.getElementById("target-word-input");
 var targetWord;
 var targetWordLength;
 var targetArray;
+var guess;
 
 //hangman module
 
@@ -42,9 +43,29 @@ var Hangman = (function(){
 
 	var _privateGetGuess = function(){
 		    letter[i].addEventListener('click', function(){
-    	console.log(this.innerHTML);
+		    	guess = this.innerHTML;
+    	for(i=0;i<=targetArray.length;i++){
+    		if(guess == targetArray[i]){
+    			console.log("match");
+    		} else {
+    		}
+    	}
+
+
     });
 
+	}
+
+	var _privateShowPlayerProgress = function(){
+		i = 5;
+		
+		if(i>0){
+		document.getElementById("turns-left").innerHTML += i;
+		i--;
+	}
+	}
+
+	var _privateCheckInputAgainstArray = function(){
 	}
 
 	return{
@@ -65,8 +86,12 @@ var Hangman = (function(){
 
 		},
 
-		showPlayerProgress: function(){
+		checkGuess: function(){
+			_privateCheckInputAgainstArray();
+		},
 
+		showPlayerProgress: function(){
+			_privateShowPlayerProgress();
 		},
 
 		updateGameState: function(){
@@ -89,12 +114,14 @@ var Hangman = (function(){
 submitButton.addEventListener("click", function(){
 	Hangman.pickWord();
 	Hangman.setUpAnswerArray();
+	Hangman.showPlayerProgress();
 });
 
 
 
 for (var i = 0; i < letter.length; i++) {
 	Hangman.getGuess();
+
 }
 
 });

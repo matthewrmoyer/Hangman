@@ -85,14 +85,16 @@ $big-screen: "(min-width: 1300px)";
 }
 
 
-.name{
-  //min font-size = 18px then scales with 3vw
 
-  font-size: calc(18px + 3vw);
+.letter{
+  display: inline;
+  cursor: pointer;
+  line-height: 3;
+  padding: 10px;
 }
 
-.personal-background{
-  font-size: calc(12px + 1vw);
+.hide{
+  visibility: hidden;
 }
 
 

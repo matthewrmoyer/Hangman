@@ -99,10 +99,13 @@ https://css-tricks.com/box-sizing/*/
   .row.space-around {
     justify-content: space-around; }
 
-.name {
-  font-size: calc(18px + 3vw); }
+.letter {
+  display: inline;
+  cursor: pointer;
+  line-height: 3;
+  padding: 10px; }
 
-.personal-background {
-  font-size: calc(12px + 1vw); }
+.hide {
+  visibility: hidden; }
 
 /*# sourceMappingURL=style.css.map */

@@ -44,10 +44,18 @@ var Hangman = (function(){
 	var _privateGetGuess = function(){
 		    letter[i].addEventListener('click', function(){
 		    	guess = this.innerHTML;
-    	for(i=0;i<=targetArray.length;i++){
+		    	//must go in reverse to remove all occurences
+    	for(i=targetArray.length; i>=0 ; i--){
+    		var match = false;
     		if(guess == targetArray[i]){
     			console.log("match");
-    		} else {
+    			match = true;
+    			document.getElementById("correct-guesses").innerHTML += targetArray[i];
+    			console.log("index of " + guess + " is " + targetArray.indexOf(guess));
+    			targetArray.splice(targetArray.indexOf(guess), 1);
+    			console.log("TA after splice: " + targetArray);
+    		} else 	if(match == false){
+    			console.log("no match");
     		}
     	}
 

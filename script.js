@@ -2,12 +2,21 @@ $(document).ready(function(){
 
 //global variables
 var submitButton = document.getElementById("target-word-submit-button");
-var letter = document.getElementsByClassName("letter");
+var letters = document.getElementsByClassName("letter");
 var targetWordInput = document.getElementById("target-word-input");
 var targetWord;
 var targetWordLength;
 var targetArray;
-var guess;
+var turnsLeft = 5;
+
+
+//TODO make this private, but cant figure out how to set "this" to letter
+function getGuess(){
+	var guess = (this.innerHTML);
+	console.log(guess);
+	Hangman.checkInputAgainstArray(guess);
+}
+
 
 //hangman module
 
@@ -41,40 +50,87 @@ var Hangman = (function(){
 		submitButton.classList.add("hide");
 	}
 
-	var _privateGetGuess = function(){
-		    letter[i].addEventListener('click', function(){
-		    	guess = this.innerHTML;
-		    	//must go in reverse to remove all occurences
-    	for(i=targetArray.length; i>=0 ; i--){
-    		var match = false;
-    		if(guess == targetArray[i]){
-    			console.log("match");
-    			match = true;
-    			document.getElementById("correct-guesses").innerHTML += targetArray[i];
-    			console.log("index of " + guess + " is " + targetArray.indexOf(guess));
-    			targetArray.splice(targetArray.indexOf(guess), 1);
-    			console.log("TA after splice: " + targetArray);
-    		} else 	if(match == false){
-    			console.log("no match");
-    		}
-    	}
+	var _privateDecreaseTurnsLeft= function(){
+		turnsLeft--;
+		document.getElementById("turns-left").innerHTML = "Turns Left: " + turnsLeft;
+		if(turnsLeft==0){
+			console.log("Game Over!")
+			document.getElementById("end-game").innerHTML = "GAME OVER";
 
+		}
+	}
 
-    });
+	var _privateIncreaseTurnsLeft = function(){
+		turnsLeft++;
+		document.getElementById("turns-left").innerHTML = "Turns Left: " + turnsLeft;
 
 	}
 
 	var _privateShowPlayerProgress = function(){
-		i = 5;
-		
-		if(i>0){
-		document.getElementById("turns-left").innerHTML += i;
-		i--;
-	}
+
 	}
 
-	var _privateCheckInputAgainstArray = function(){
+	var _privateCheckInputAgainstArray = function(guess){
+		for(i=0; i<targetArray.length; i++){
+			if(guess == targetArray[i]){
+				console.log("MATCH");
+				document.getElementById("correct-guesses").innerHTML += guess;
+				_privateIncreaseTurnsLeft();			
+				targetArray.splice(targetArray.indexOf(guess), 1);
+				console.log("NEW ARRAY: " + targetArray);
+							if(guess == targetArray[i]){
+				console.log("MATCH");
+				document.getElementById("correct-guesses").innerHTML += guess;
+				_privateIncreaseTurnsLeft();			
+				targetArray.splice(targetArray.indexOf(guess), 1);
+				console.log("NEW ARRAY: " + targetArray);
+				if(targetArray.length==0){
+					document.getElementById("end-game").innerHTML = "YOU WIN!!!";
+				}
+
+			}
+			//repeat for words with double, triple letters
+						if(guess == targetArray[i]){
+				console.log("MATCH");
+				document.getElementById("correct-guesses").innerHTML += guess;
+				_privateIncreaseTurnsLeft();			
+				targetArray.splice(targetArray.indexOf(guess), 1);
+				console.log("NEW ARRAY: " + targetArray);
+				if(targetArray.length==0){
+					document.getElementById("end-game").innerHTML = "YOU WIN!!!";
+				}
+
+			}
+						if(guess == targetArray[i]){
+				console.log("MATCH");
+				document.getElementById("correct-guesses").innerHTML += guess;
+				_privateIncreaseTurnsLeft();			
+				targetArray.splice(targetArray.indexOf(guess), 1);
+				console.log("NEW ARRAY: " + targetArray);
+				if(targetArray.length==0){
+					document.getElementById("end-game").innerHTML = "YOU WIN!!!";
+				}
+
+			}
+				if(targetArray.length==0){
+					document.getElementById("end-game").innerHTML = "YOU WIN!!!";
+				}
+
+			}
+			else{
+				console.log("NO MATCH");
+			}
+		}
+		//getting a double letter right will increase turnsLeft over 5 so set it to 6 then call  _privateDecraseTurnsLeft
+		if(turnsLeft>5){
+			turnsLeft=6;
+		}
+
+		_privateDecreaseTurnsLeft();
+
+
 	}
+
 
 	return{
 		//public function to get target word
@@ -89,17 +145,15 @@ var Hangman = (function(){
 			_privateCreateArray();
 		},
 
-		getGuess: function(){
-			_privateGetGuess();
-
+		decreaseTurnsLeft(){
+			_privateDecreaseTurnsLeft();
 		},
 
-		checkGuess: function(){
-			_privateCheckInputAgainstArray();
+		increaseTurnsLeft(){
+			_privateIncreaseTurnsLeft();
 		},
 
 		showPlayerProgress: function(){
-			_privateShowPlayerProgress();
 		},
 
 		updateGameState: function(){
@@ -108,6 +162,10 @@ var Hangman = (function(){
 
 		showAnswerAndCongratulatePlayer: function(){
 
+		},
+
+		checkInputAgainstArray: function(guess){
+			_privateCheckInputAgainstArray(guess);
 		}
 
 
@@ -123,13 +181,15 @@ submitButton.addEventListener("click", function(){
 	Hangman.pickWord();
 	Hangman.setUpAnswerArray();
 	Hangman.showPlayerProgress();
+
 });
 
 
 
-for (var i = 0; i < letter.length; i++) {
-	Hangman.getGuess();
-
+for(i=0; i<letters.length; i++){
+	var letter = letters[i];
+	letter.onclick = getGuess;
 }
+
 
 });

@@ -46,6 +46,10 @@ var Hangman = (function(){
 		document.getElementById("correct-guesses").innerHTML += guess;
 	}
 
+	var _privateRemoveGuessFromTargetArray = function(guess){
+		targetArray.splice(targetArray.indexOf(guess), 1);				
+	}
+
 	var _privateSetSpacesLeft = function(){
 		document.getElementById("spaces-left").innerHTML += spacesLeft;
 	}
@@ -104,35 +108,36 @@ var Hangman = (function(){
 				console.log("MATCH");
 				_privatePrintCorrectGuess(guess);
 				_privateIncreaseTurnsLeft();
-				targetArray.splice(targetArray.indexOf(guess), 1);				
+				_privateRemoveGuessFromTargetArray(guess);				
 				_privateDecreaseSpacesLeft();			
 				console.log("NEW ARRAY: " + targetArray);
 				if(guess == targetArray[i]){
-				console.log("MATCH");
-				document.getElementById("correct-guesses").innerHTML += guess;
-				_privateIncreaseTurnsLeft();			
-				targetArray.splice(targetArray.indexOf(guess), 1);
-				_privateDecreaseSpacesLeft();
-				console.log("NEW ARRAY: " + targetArray);
+					console.log("MATCH");
+					_privatePrintCorrectGuess(guess);
+					_privateIncreaseTurnsLeft();							
+					_privateRemoveGuessFromTargetArray(guess);				
+					_privateDecreaseSpacesLeft();
+					console.log("NEW ARRAY: " + targetArray);
+				}
+				//repeat for words with double, triple letters, copy past for quadruple etc
 
-			}
-			//repeat for words with double, triple letters, copy past for quadruple etc
-						if(guess == targetArray[i]){
-				console.log("MATCH"); 				
-				_privatePrintCorrectGuess(guess);
-				_privateIncreaseTurnsLeft();
-				targetArray.splice(targetArray.indexOf(guess), 1);
-				_privateDecreaseSpacesLeft();						
-				console.log("NEW ARRAY: " + targetArray);
-			}
-						if(guess == targetArray[i]){
-				console.log("MATCH");				
-				_privatePrintCorrectGuess(guess);
-				_privateIncreaseTurnsLeft();
-				targetArray.splice(targetArray.indexOf(guess), 1);
-				_privateDecreaseSpacesLeft();			
-				console.log("NEW ARRAY: " + targetArray);
-			}
+				if(guess == targetArray[i]){
+					console.log("MATCH"); 				
+					_privatePrintCorrectGuess(guess);
+					_privateIncreaseTurnsLeft(); 				
+					_privateRemoveGuessFromTargetArray(guess);				
+					_privateDecreaseSpacesLeft();						
+					console.log("NEW ARRAY: " + targetArray);
+				}
+
+				if(guess == targetArray[i]){
+					console.log("MATCH");				
+					_privatePrintCorrectGuess(guess);
+					_privateIncreaseTurnsLeft(); 				
+					_privateRemoveGuessFromTargetArray(guess);				
+					_privateDecreaseSpacesLeft();			
+					console.log("NEW ARRAY: " + targetArray);
+				}
 			}
 			else{
 				console.log("NO MATCH");

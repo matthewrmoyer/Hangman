@@ -42,6 +42,10 @@ var Hangman = (function(){
 		spacesLeft = targetArray.length;
 	}
 
+	var _privatePrintCorrectGuess = function(guess){
+		document.getElementById("correct-guesses").innerHTML += guess;
+	}
+
 	var _privateSetSpacesLeft = function(){
 		document.getElementById("spaces-left").innerHTML += spacesLeft;
 	}
@@ -98,12 +102,12 @@ var Hangman = (function(){
 		for(i=0; i<targetArray.length; i++){
 			if(guess == targetArray[i]){
 				console.log("MATCH");
-				document.getElementById("correct-guesses").innerHTML += guess;
+				_privatePrintCorrectGuess(guess);
 				_privateIncreaseTurnsLeft();
 				targetArray.splice(targetArray.indexOf(guess), 1);				
 				_privateDecreaseSpacesLeft();			
 				console.log("NEW ARRAY: " + targetArray);
-							if(guess == targetArray[i]){
+				if(guess == targetArray[i]){
 				console.log("MATCH");
 				document.getElementById("correct-guesses").innerHTML += guess;
 				_privateIncreaseTurnsLeft();			
@@ -114,16 +118,16 @@ var Hangman = (function(){
 			}
 			//repeat for words with double, triple letters, copy past for quadruple etc
 						if(guess == targetArray[i]){
-				console.log("MATCH");
-				document.getElementById("correct-guesses").innerHTML += guess;
+				console.log("MATCH"); 				
+				_privatePrintCorrectGuess(guess);
 				_privateIncreaseTurnsLeft();
 				targetArray.splice(targetArray.indexOf(guess), 1);
 				_privateDecreaseSpacesLeft();						
 				console.log("NEW ARRAY: " + targetArray);
 			}
 						if(guess == targetArray[i]){
-				console.log("MATCH");
-				document.getElementById("correct-guesses").innerHTML += guess;
+				console.log("MATCH");				
+				_privatePrintCorrectGuess(guess);
 				_privateIncreaseTurnsLeft();
 				targetArray.splice(targetArray.indexOf(guess), 1);
 				_privateDecreaseSpacesLeft();			

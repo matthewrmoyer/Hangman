@@ -16,6 +16,7 @@ function getGuess(){
 	var guess = (this.innerHTML);
 	console.log(guess);
 	Hangman.checkInputAgainstArray(guess);
+	$(this).remove();
 }
 
 
